@@ -15,9 +15,9 @@ jobs:
       - name: Update flake lock
         run: nix flake update
       - name: Build iEDA
-        run: nix build -L '.#ieda'
+        run: nix build -L '.#iedaUnstable'
       - name: Build iEDA Bundle
-        run: nix bundle -L '.#ieda'
+        run: nix bundle -L '.#iedaUnstable'
       - name: Build iEDA Release Docker
         run: nix build -L '.#releaseDocker'
       - name: Create Pull Request
