@@ -33,6 +33,8 @@ stdenv.mkDerivation {
       url = "https://github.com/Emin017/iEDA/commit/f5464cc40a2c671c5d405f16b509e2fa8d54f7f1.patch";
       hash = "sha256-uVMV/CjkX9oLexHJbQvnEDOET/ZqsEPreI6EQb3Z79s=";
     })
+    # This patch is to fix the glog compatibility issue with the 0.7.1 version glog
+    ./patches/glog.patch
   ];
   dontBuild = true;
   dontFixup = true;
