@@ -13,16 +13,6 @@ in
     spectra-src
     ;
 
-  glog-lock = prev.glog.overrideAttrs (oldAttrs: rec {
-    version = "0.6.0";
-    src = final.fetchFromGitHub {
-      owner = "google";
-      repo = "glog";
-      rev = "v${version}";
-      sha256 = "sha256-xqRp9vaauBkKz2CXbh/Z4TWqhaUtqfbsSlbYZR/kW9s=";
-    };
-  });
-
   iedaScope = final.callPackage ./pkgs/ieda { };
 
   rustpkgs-all = final.symlinkJoin {

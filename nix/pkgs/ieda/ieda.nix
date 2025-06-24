@@ -11,7 +11,7 @@
   eigen,
   yaml-cpp,
   libunwind,
-  glog-lock,
+  glog,
   gtest,
   gflags,
   metis,
@@ -64,7 +64,7 @@ stdenv.mkDerivation {
     verilog-parser
     liberty-parser
     gtest
-    glog-lock
+    glog
     gflags
     boost
     onnxruntime

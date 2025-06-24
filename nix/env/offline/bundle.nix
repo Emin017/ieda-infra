@@ -1,12 +1,12 @@
 {
   pkgs,
-  glog-lock,
+  glog,
 }:
 let
   shell = pkgs.mkShell {
     buildInputs = with pkgs; [
       gtest
-      glog-lock
+      glog
       gflags
       boost
       onnxruntime
