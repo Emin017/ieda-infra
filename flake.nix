@@ -64,6 +64,7 @@
               iedaUnstable
               ;
             inherit (pkgs)
+              magic-vlsi
               offlineDevBundle
               releaseDocker
               ;
