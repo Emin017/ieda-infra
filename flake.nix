@@ -37,6 +37,7 @@
       flake.hydraJobs = {
         x86_64-linux = {
           iedaUnstable = inputs.self.packages.x86_64-linux.iedaUnstable;
+          magic-vlsi = inputs.nixpkgs.legacyPackages.x86_64-linux.magic-vlsi;
         };
       };
       perSystem =
