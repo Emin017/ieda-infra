@@ -16,6 +16,11 @@ in
   iedaScope = final.callPackage ./pkgs/ieda { };
   magic-vlsi = final.callPackage ./pkgs/magic-vlsi { };
 
+  yosys-slang = prev.callPackage ./pkgs/yosys-slang { };
+  yosysWithSlang = final.yosys.withPlugins [
+    final.yosys-slang
+  ];
+
   rustpkgs-all = final.symlinkJoin {
     name = "rustpkgs-all";
     paths = with final; [
