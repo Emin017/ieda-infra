@@ -54,3 +54,15 @@ jobs:
         with:
           name: iEDA-Release-Docker
           path: result
+
+  build-magic-vlsi:
+    name: Build Magic-VLSI on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ self-hosted ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - name: Build Magic-VLSI
+        run: nix build -L '.#magic-vlsi' --accept-flake-config

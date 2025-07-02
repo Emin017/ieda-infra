@@ -14,6 +14,7 @@ in
     ;
 
   iedaScope = final.callPackage ./pkgs/ieda { };
+  magic-vlsi = final.callPackage ./pkgs/magic-vlsi { };
 
   rustpkgs-all = final.symlinkJoin {
     name = "rustpkgs-all";
