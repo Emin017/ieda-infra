@@ -25,12 +25,14 @@
   verilog-parser,
   liberty-parser,
   gperftools,
+  pkg-config,
+  curl,
   iedaSrc,
 }:
 
 stdenv.mkDerivation {
   pname = "ieda";
-  version = "0-unstable-2025-06-30";
+  version = "0-unstable-2025-07-03";
 
   src = iedaSrc;
 
@@ -41,6 +43,7 @@ stdenv.mkDerivation {
     bison
     python3
     tcl
+    pkg-config
   ];
 
   cmakeBuildType = "Release";
@@ -76,6 +79,7 @@ stdenv.mkDerivation {
     tcl
     zlib
     gperftools
+    curl
   ];
 
   postInstall = ''
