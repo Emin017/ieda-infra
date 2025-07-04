@@ -5,11 +5,11 @@
 }:
 stdenv.mkDerivation {
   pname = "iEDA-src";
-  version = "2025-06-30";
+  version = "2025-07-03";
   src = fetchgit {
     url = "https://gitee.com/oscc-project/iEDA";
-    rev = "689f172c726c3934d49577f09adb5b09804f11e5";
-    sha256 = "sha256-JJePIn+NUScb+3o67vT31BoKHcfBuE9osV4SrcicFds=";
+    rev = "ff248e6f656f114171f97c8bbb7d213166c5ebc4";
+    sha256 = "sha256-H0UTdC7v1AKg5dgLlJkJK6AxjCdbTz2lcyNwrX1YRWw=";
   };
 
   patches = [
