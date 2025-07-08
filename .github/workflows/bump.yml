@@ -1,0 +1,58 @@
+name: Bump
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Allow manual triggering
+jobs:
+  bump-src:
+    runs-on: self-hosted
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: Update iEDA source
+        run: cd nix/pkgs && nix run nixpkgs#nvfetcher && nix fmt && cd -
+      - name: Build iEDA
+        run: nix build -L '.#iedaUnstable'
+      - name: Build iEDA Bundle
+        run: nix bundle -L '.#iedaUnstable'
+      - name: Build iEDA Release Docker
+        run: nix build -L '.#releaseDocker'
+      - name: Create Pull Request
+        run: |
+          echo "Creating a new pull request..."
+          UPDATE_DATE=$(date +%Y-%m-%d)
+          BRANCH_NAME="bump-ieda-src"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions[bot]"
+          git fetch origin
+          # Create a new branch
+          echo "Creating a new branch..."
+          git checkout -b $BRANCH_NAME
+          git add nix/pkgs/ieda/src.nix
+          git add nix/pkgs/_sources
+          if ! git diff --quiet --cached --exit-code; then
+              updatedFiles=$(git diff --cached --name-only)
+              echo "Have changes: $updatedFiles"
+              # Get version from generated.json
+              OLD_VERSION=$(jq -r '.iEDA.date' .nix/pkgs/_sources/generated.json)
+              NEW_VERSION="0-unstable-$UPDATE_DATE"
+              git commit -m "iedaUnstable: $OLD_VERSION -> $NEW_VERSION"
+              # Push the changes
+              echo "Pushing changes..."
+              git push origin "$BRANCH_NAME" --force-with-lease
+              # Create a new PR
+              echo "Creating a new PR..."
+              nix run nixpkgs#gh -- pr create \
+                --reviewer Emin017 \
+                --title "iedaUnstable: $OLD_VERSION -> $NEW_VERSION" \
+                --body "Auto-generated PR to merge '$BRANCH_NAME' into 'main', changes:$updatedFiles" \
+                --base main \
+                --head "$BRANCH_NAME" \
+                --repo "${{ github.repository }}"
+              echo "PR created!"
+            fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
