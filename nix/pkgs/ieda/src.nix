@@ -1,17 +1,18 @@
 {
   stdenv,
-  fetchgit,
+  lib,
   fetchpatch,
+  callPackage,
 }:
+let
+  sources = ../_sources/generated.nix;
+  deps = lib.filterAttrs (_: v: v ? src) (callPackage sources { });
+  iEDASrc = deps.iEDA.src;
+in
 stdenv.mkDerivation {
   pname = "iEDA-src";
-  version = "2025-07-06";
-  src = fetchgit {
-    url = "https://gitee.com/oscc-project/iEDA";
-    rev = "9db83cbe04c753f2c8cc4c3be84cfeaedb96fe80";
-    sha256 = "sha256-UYCzNJR3QhUv0QdLjjql26cRrSWZJxHMnzvfQBXf2tg=";
-  };
-
+  version = deps.iEDA.date;
+  src = iEDASrc;
   patches = [
     # This patch is to fix the build error caused by the missing of the header file,
     # and remove some libs or path that they hard-coded in the source code.

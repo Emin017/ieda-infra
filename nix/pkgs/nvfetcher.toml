@@ -1,0 +1,5 @@
+[iEDA]
+src.git = "https://gitee.com/oscc-project/iEDA.git"
+src.branch = "master"
+fetch.git = "https://gitee.com/oscc-project/iEDA.git"
+git.fetchSubmodules = true
