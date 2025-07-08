@@ -32,7 +32,7 @@
 
 stdenv.mkDerivation {
   pname = "ieda";
-  version = "0-unstable-2025-07-03";
+  version = "0-unstable-2025-07-06";
 
   src = iedaSrc;
 
