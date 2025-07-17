@@ -41,7 +41,7 @@ jobs:
               git push origin "$BRANCH_NAME" --force-with-lease
               # Create a new PR
               echo "Creating a new PR..."
-              gh pr create \
+              nix run nixpkgs#gh -- pr create \
                 --reviewer Emin017 \
                 --title "chore: update flake lock $UPDATE_DATE" \
                 --body "Auto-generated PR to merge '$BRANCH_NAME' into 'main', changes:$updatedFiles" \
