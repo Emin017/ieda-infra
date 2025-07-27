@@ -28,6 +28,7 @@
   pkg-config,
   curl,
   iedaSrc,
+  tbb,
 }:
 
 stdenv.mkDerivation {
@@ -80,6 +81,7 @@ stdenv.mkDerivation {
     zlib
     gperftools
     curl
+    tbb
   ];
 
   postInstall = ''
