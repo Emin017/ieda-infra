@@ -1,0 +1,131 @@
+diff --git a/src/database/manager/parser/liberty/CMakeLists.txt b/src/database/manager/parser/liberty/CMakeLists.txt
+index b2aa075fb..44f6575ba 100644
+--- a/src/database/manager/parser/liberty/CMakeLists.txt
++++ b/src/database/manager/parser/liberty/CMakeLists.txt
+@@ -22,9 +22,7 @@ endif()
+ 
+ message(STATUS "liberty parser rust lib path ${RUST_LIB_PATH}")
+ 
+-ADD_EXTERNAL_PROJ(liberty)
+-
+-target_link_libraries(liberty str sta-solver log ${RUST_LIB_PATH} dl)
++target_link_libraries(liberty str sta-solver log liberty_parser dl)
+ 
+ target_include_directories(liberty PUBLIC 
+     ${CMAKE_CURRENT_SOURCE_DIR} 
+@@ -34,5 +32,3 @@ add_executable(test_lib ${CMAKE_CURRENT_SOURCE_DIR}/lib-rust/liberty-parser/test
+ target_link_libraries(test_lib liberty)
+ target_include_directories(test_lib PUBLIC 
+     ${CMAKE_CURRENT_SOURCE_DIR})
+-
+-install(TARGETS test_lib DESTINATION /home/taosimin/bin/iEDA_bin)
+\ No newline at end of file
+diff --git a/src/database/manager/parser/spef/CMakeLists.txt b/src/database/manager/parser/spef/CMakeLists.txt
+index 322eb159f..3ab980114 100644
+--- a/src/database/manager/parser/spef/CMakeLists.txt
++++ b/src/database/manager/parser/spef/CMakeLists.txt
+@@ -22,9 +22,7 @@ endif()
+ 
+ message(STATUS "spef parser rust lib path ${RUST_LIB_PATH}")
+ 
+-ADD_EXTERNAL_PROJ(spef)
+-
+-target_link_libraries(spef log ${RUST_LIB_PATH} dl)
++target_link_libraries(spef log spef_parser dl)
+ target_include_directories(spef PUBLIC 
+     ${CMAKE_CURRENT_SOURCE_DIR})
+ 
+diff --git a/src/database/manager/parser/vcd/CMakeLists.txt b/src/database/manager/parser/vcd/CMakeLists.txt
+index 7e2df5262..e2ff508ce 100644
+--- a/src/database/manager/parser/vcd/CMakeLists.txt
++++ b/src/database/manager/parser/vcd/CMakeLists.txt
+@@ -21,9 +21,7 @@ endif()
+ 
+ message(STATUS "vcd parser rust lib path ${RUST_LIB_PATH}")
+ 
+-ADD_EXTERNAL_PROJ(vcd)
+-
+-target_link_libraries(vcd ${RUST_LIB_PATH} dl)
++target_link_libraries(vcd vcd_parser dl)
+ target_include_directories(vcd PUBLIC 
+     ${CMAKE_CURRENT_SOURCE_DIR})
+ 
+diff --git a/src/database/manager/parser/verilog/CMakeLists.txt b/src/database/manager/parser/verilog/CMakeLists.txt
+index 1ceaee3fc..a318da4bc 100644
+--- a/src/database/manager/parser/verilog/CMakeLists.txt
++++ b/src/database/manager/parser/verilog/CMakeLists.txt
+@@ -43,9 +43,7 @@ endif()
+ 
+ message(STATUS "verilog parser rust lib path ${RUST_LIB_PATH}")
+ 
+-ADD_EXTERNAL_PROJ(verilog)
+-
+-target_link_libraries(verilog str log ${ZLIB_LIBRARIES} ${RUST_LIB_PATH} dl) 
++target_link_libraries(verilog str log ${ZLIB_LIBRARIES} verilog_parser dl)
+ 
+ target_include_directories(verilog
+     PUBLIC
+diff --git a/src/operation/iIR/source/iir-rust/CMakeLists.txt b/src/operation/iIR/source/iir-rust/CMakeLists.txt
+index e601b1129..48159894f 100644
+--- a/src/operation/iIR/source/iir-rust/CMakeLists.txt
++++ b/src/operation/iIR/source/iir-rust/CMakeLists.txt
+@@ -24,6 +24,4 @@ endif()
+ 
+ message(STATUS "iIR rust lib path ${RUST_LIB_PATH}")
+ 
+-ADD_EXTERNAL_PROJ(iir)
+-
+-target_link_libraries(iIR-Rust PRIVATE ${RUST_LIB_PATH} dl)
+\ No newline at end of file
++target_link_libraries(iIR-Rust PRIVATE iir dl)
+diff --git a/src/operation/iRT/interface/RTInterface.hpp b/src/operation/iRT/interface/RTInterface.hpp
+index 24513ed45..2a0350f1e 100644
+--- a/src/operation/iRT/interface/RTInterface.hpp
++++ b/src/operation/iRT/interface/RTInterface.hpp
+@@ -17,6 +17,7 @@
+ #pragma once
+ 
+ #include <any>
++#include <cstdint>
+ #include <map>
+ #include <set>
+ #include <string>
+diff --git a/src/utility/log/CMakeLists.txt b/src/utility/log/CMakeLists.txt
+index fb7df2f39..7f23ac42f 100644
+--- a/src/utility/log/CMakeLists.txt
++++ b/src/utility/log/CMakeLists.txt
+@@ -18,6 +18,8 @@ else()
+   ADD_LIBRARY(log SHARED ${SRC})
+ endif()
+ 
++find_package (glog 0.6.0 REQUIRED)
++find_package (gflags REQUIRED)
+ TARGET_LINK_LIBRARIES(log PUBLIC ${LINK_glog} ${LINK_gflags} ${LINK_unwind})
+ 
+ target_include_directories(log
+diff --git a/src/utility/log/Log.cc b/src/utility/log/Log.cc
+index da3fefa0d..8c07dd40c 100644
+--- a/src/utility/log/Log.cc
++++ b/src/utility/log/Log.cc
+@@ -45,7 +45,7 @@ bool Log::_is_init = false;
+  * @param data
+  * @param size
+  */
+-void SignalHandle(const char* data, int size)
++void SignalHandle(const char* data, std::size_t size)
+ {
+   std::ofstream fs("glog_dump.log", std::ios::app);
+   std::string str = std::string(data, size);
+diff --git a/src/utility/tcl/ScriptEngine.hh b/src/utility/tcl/ScriptEngine.hh
+index 3489507a2..3e11f5b62 100644
+--- a/src/utility/tcl/ScriptEngine.hh
++++ b/src/utility/tcl/ScriptEngine.hh
+@@ -24,7 +24,7 @@
+ 
+ #pragma once
+ 
+-#include <tcl8.6/tcl.h>
++#include <tcl.h>
+ 
+ #include <memory>
+ #include <mutex>
