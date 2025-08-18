@@ -66,6 +66,7 @@
               ;
             inherit (pkgs)
               magic-vlsi
+              dreamplace
               yosysWithSlang
               offlineDevBundle
               releaseDocker
