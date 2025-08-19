@@ -84,7 +84,6 @@ stdenv.mkDerivation {
     tbb_2021
   ];
 
-
   postInstall = ''
     # Tests rely on hardcoded path, so they should not be included
     rm $out/bin/*test $out/bin/*Test $out/bin/test_* $out/bin/*_app
