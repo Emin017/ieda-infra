@@ -37,7 +37,7 @@ jobs:
               updatedFiles=$(git diff --cached --name-only)
               echo "Have changes: $updatedFiles"
               # Get version from generated.json
-              OLD_VERSION=$(jq -r '.iEDA.date' .nix/pkgs/_sources/generated.json)
+              OLD_VERSION=$(nix run nixpkgs#jq -- -r '.iEDA.date' ./nix/pkgs/_sources/generated.json)
               NEW_VERSION="0-unstable-$UPDATE_DATE"
               git commit -m "iedaUnstable: $OLD_VERSION -> $NEW_VERSION"
               # Push the changes
