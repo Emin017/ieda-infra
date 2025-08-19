@@ -12,6 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
+      - name: Get old version before update
+        run: |
+          OLD_VERSION=$(nix run nixpkgs#jq -- -r '.iEDA.date' ./nix/pkgs/_sources/generated.json)
+          echo "OLD_VERSION=0-unstable-$OLD_VERSION" >> $GITHUB_ENV
       - name: Update iEDA source
         run: cd nix/pkgs && nix run nixpkgs#nvfetcher && nix fmt && cd -
       - name: Build iEDA
@@ -36,8 +40,8 @@ jobs:
           if ! git diff --quiet --cached --exit-code; then
               updatedFiles=$(git diff --cached --name-only)
               echo "Have changes: $updatedFiles"
-              # Get version from generated.json
-              OLD_VERSION=$(nix run nixpkgs#jq -- -r '.iEDA.date' ./nix/pkgs/_sources/generated.json)
+              # Use the old version stored in environment variable
+              echo "OLD VERSION=$OLD_VERSION"
               NEW_VERSION="0-unstable-$UPDATE_DATE"
               git commit -m "iedaUnstable: $OLD_VERSION -> $NEW_VERSION"
               # Push the changes
