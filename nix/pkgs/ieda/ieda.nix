@@ -28,7 +28,7 @@
   pkg-config,
   curl,
   iedaSrc,
-  tbb,
+  tbb_2021,
 }:
 
 stdenv.mkDerivation {
@@ -81,8 +81,9 @@ stdenv.mkDerivation {
     zlib
     gperftools
     curl
-    tbb
+    tbb_2021
   ];
+
 
   postInstall = ''
     # Tests rely on hardcoded path, so they should not be included
