@@ -78,18 +78,6 @@ index e601b1129..48159894f 100644
 -target_link_libraries(iIR-Rust PRIVATE ${RUST_LIB_PATH} dl)
 \ No newline at end of file
 +target_link_libraries(iIR-Rust PRIVATE iir dl)
-diff --git a/src/operation/iRT/interface/RTInterface.hpp b/src/operation/iRT/interface/RTInterface.hpp
-index 24513ed45..2a0350f1e 100644
---- a/src/operation/iRT/interface/RTInterface.hpp
-+++ b/src/operation/iRT/interface/RTInterface.hpp
-@@ -17,6 +17,7 @@
- #pragma once
- 
- #include <any>
-+#include <cstdint>
- #include <map>
- #include <set>
- #include <string>
 diff --git a/src/utility/log/CMakeLists.txt b/src/utility/log/CMakeLists.txt
 index fb7df2f39..7f23ac42f 100644
 --- a/src/utility/log/CMakeLists.txt

@@ -31,9 +31,6 @@ stdenv.mkDerivation {
     # and remove some libs or path that they hard-coded in the source code.
     # Should be removed after we upstream these changes.
     ./patches/fix-cmake-headers.patch
-    # Fix the vector type error in the source code
-    # this should be removed after we upstream these changes.
-    ./patches/fix-vector.patch
     # This patch is to fix the compile error on the newer version of gcc/g++
     # We remove some forward declarations which are not allowed in newer versions of gcc/g++
     # Should be removed after we upstream these changes.
