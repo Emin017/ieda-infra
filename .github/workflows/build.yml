@@ -31,12 +31,12 @@ jobs:
       - name: Build iEDA
         run: nix build -L '.#iedaUnstable' --accept-flake-config
       - name: Build iEDA Bundle
-        run: nix bundle -L '.#iedaUnstable' --accept-flake-config
+        run: nix bundle -L --bundler github:NixOS/bundlers#toRPM '.#iedaUnstable' --accept-flake-config
       - name: Upload iEDA Offline Bundle
         uses: actions/upload-artifact@v4.6.2
         with:
           name: iEDA-Bundle
-          path: ieda-arx
+          path: rpm-single-ieda
 
   build-docker:
     name: Build Docker on ${{ matrix.os }}
