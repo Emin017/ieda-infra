@@ -28,12 +28,12 @@
   pkg-config,
   curl,
   iedaSrc,
-  tbb_2021,
+  tbb_2022,
 }:
 
 stdenv.mkDerivation {
   pname = "ieda";
-  version = "0-unstable-${iedaSrc.version}";
+  version = "0.1.0-unstable-${iedaSrc.version}";
 
   src = iedaSrc;
 
@@ -81,7 +81,7 @@ stdenv.mkDerivation {
     zlib
     gperftools
     curl
-    tbb_2021
+    tbb_2022
   ];
 
   postInstall = ''

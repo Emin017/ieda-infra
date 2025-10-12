@@ -26,25 +26,23 @@ stdenv.mkDerivation {
   pname = "iEDA-src";
   version = srcAttrsSet.v;
   src = srcAttrsSet.iEDASrc;
+
   patches = [
     # This patch is to fix the build error caused by the missing of the header file,
     # and remove some libs or path that they hard-coded in the source code.
-    # Should be removed after we upstream these changes.
-    ./patches/fix-cmake-headers.patch
-    # This patch is to fix the compile error on the newer version of gcc/g++
-    # We remove some forward declarations which are not allowed in newer versions of gcc/g++
-    # Should be removed after we upstream these changes.
+    # Due to the way they organized the source code, it's hard to upstream this patch.
+    # So we have to maintain this patch locally.
     (fetchpatch {
-      url = "https://github.com/Emin017/iEDA/commit/f5464cc40a2c671c5d405f16b509e2fa8d54f7f1.patch";
-      hash = "sha256-uVMV/CjkX9oLexHJbQvnEDOET/ZqsEPreI6EQb3Z79s=";
+      url = "https://github.com/Emin017/iEDA/commit/c6b642f3db6c156eaf4f1203612592c86e49e1b5.patch";
+      hash = "sha256-L0bmW7kadmLLng9rZOT1NpvniBpuD8SUqCfeH2cCrdg=";
+    })
+    # Comment out the iCTS test cases that will fail due to some linking issues on aarch64-linux
+    (fetchpatch {
+      url = "https://github.com/Emin017/iEDA/commit/87c5dded74bc452249e8e69f4a77dd1bed7445c2.patch";
+      hash = "sha256-1Hd0DYnB5lVAoAcB1la5tDlox4cuQqApWDiiWtqWN0Q=";
     })
   ];
 
-  postPatch = ''
-    # Comment out the line that adds the onnxruntime library path
-    # Fail to patch this in the patch file, so we do it here. (Need to be figured out why)
-    sed -i '27s/^/#/' src/operation/iSTA/CMakeLists.txt
-  '';
   dontBuild = true;
   dontFixup = true;
   installPhase = ''
