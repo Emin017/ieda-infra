@@ -21,7 +21,7 @@ jobs:
       - name: Build iEDA
         run: nix build -L '.#iedaUnstable'
       - name: Build iEDA Bundle
-        run: nix bundle -L '.#iedaUnstable'
+        run: nix bundle -L --bundler github:NixOS/bundlers#toRPM '.#iedaUnstable'
       - name: Build iEDA Release Docker
         run: nix build -L '.#releaseDocker'
       - name: Create Pull Request
