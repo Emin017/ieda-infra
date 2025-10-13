@@ -14,4 +14,5 @@ lib.makeScope newScope (scope: {
   spef-parser = scope.rustpkgs.spef-parser;
   vcd-parser = scope.rustpkgs.vcd_parser;
   verilog-parser = scope.rustpkgs.verilog-parser;
+  releaseDocker = scope.callPackage ./docker.nix { };
 })

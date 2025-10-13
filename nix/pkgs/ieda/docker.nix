@@ -10,7 +10,7 @@
   wget,
   curl,
   dockerTools,
-  ieda,
+  iedaUnstable,
 }:
 let
   self = pkgs.dockerTools.buildImage {
@@ -28,7 +28,7 @@ let
         wget
         curl
         nix
-        ieda
+        iedaUnstable
 
         bashInteractive
         dockerTools.binSh

@@ -63,13 +63,13 @@
             default = pkgs.iedaScope.iedaUnstable;
             inherit (pkgs.iedaScope)
               iedaUnstable
+              releaseDocker
               ;
             inherit (pkgs)
               magic-vlsi
               dreamplace
               yosysWithSlang
               offlineDevBundle
-              releaseDocker
               ;
           };
         };
