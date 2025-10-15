@@ -46,6 +46,7 @@ stdenv.mkDerivation {
 
   cmakeFlags = [
     "-DCMAKE_CXX_ABI=1"
+    "-DCMAKE_POLICY_VERSION_MINIMUM=3.11"
   ];
 
   preConfigure = ''
