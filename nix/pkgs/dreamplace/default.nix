@@ -46,10 +46,15 @@ stdenv.mkDerivation {
 
   cmakeFlags = [
     "-DCMAKE_CXX_ABI=1"
+    "-DCMAKE_POLICY_VERSION_MINIMUM=3.11"
   ];
 
   preConfigure = ''
     cmakeFlags+=" -DCMAKE_INSTALL_PREFIX=$out -DPython_EXECUTABLE=${python3}/bin/python3"
+  '';
+
+  postPatch = ''
+    sed -i 's/^[[:space:]]*CMAKE_POLICY(SET CMP0048 OLD)/CMAKE_POLICY(SET CMP0048 NEW)/' thirdparty/Limbo/limbo/thirdparty/lemon/CMakeLists.txt
   '';
 
   buildInputs = [

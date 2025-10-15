@@ -41,6 +41,7 @@ stdenv.mkDerivation {
       url = "https://github.com/Emin017/iEDA/commit/87c5dded74bc452249e8e69f4a77dd1bed7445c2.patch";
       hash = "sha256-1Hd0DYnB5lVAoAcB1la5tDlox4cuQqApWDiiWtqWN0Q=";
     })
+    ./patches/fix-cmake-require.patch
   ];
 
   dontBuild = true;

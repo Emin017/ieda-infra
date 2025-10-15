@@ -35,5 +35,4 @@ in
   };
 
   offlineDevBundle = final.callPackage ./env/offline/bundle.nix { };
-  releaseDocker = final.callPackage ./env/docker.nix { };
 }
