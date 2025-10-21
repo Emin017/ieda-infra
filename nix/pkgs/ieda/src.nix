@@ -32,10 +32,8 @@ stdenv.mkDerivation {
     # and remove some libs or path that they hard-coded in the source code.
     # Due to the way they organized the source code, it's hard to upstream this patch.
     # So we have to maintain this patch locally.
-    (fetchpatch {
-      url = "https://github.com/Emin017/iEDA/commit/c6b642f3db6c156eaf4f1203612592c86e49e1b5.patch";
-      hash = "sha256-L0bmW7kadmLLng9rZOT1NpvniBpuD8SUqCfeH2cCrdg=";
-    })
+    ./patches/fix.patch
+    ./patches/fix-tcl-include.patch
     # Comment out the iCTS test cases that will fail due to some linking issues on aarch64-linux
     (fetchpatch {
       url = "https://github.com/Emin017/iEDA/commit/87c5dded74bc452249e8e69f4a77dd1bed7445c2.patch";
