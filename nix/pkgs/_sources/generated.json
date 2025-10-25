@@ -1,7 +1,7 @@
 {
     "iEDA": {
         "cargoLocks": null,
-        "date": "2025-10-11",
+        "date": "2025-10-22",
         "extract": null,
         "name": "iEDA",
         "passthru": null,
@@ -11,12 +11,12 @@
             "fetchSubmodules": true,
             "leaveDotGit": false,
             "name": null,
-            "rev": "72c7e5d6dd0e2039ae5e4dbf7a03e001182cfe94",
-            "sha256": "sha256-dqx1SfmBRPB/Oq1GtrC6rweLdu/4/yYmuGycPc6XzhI=",
+            "rev": "ec8249490ac6f4ff4aaf042964afc9ce4f3ab725",
+            "sha256": "sha256-pmf4kmlOavkdwxktTw6x52VzDcMH856J5MuxFbDx2Es=",
             "sparseCheckout": [],
             "type": "git",
             "url": "https://gitee.com/oscc-project/iEDA.git"
         },
-        "version": "72c7e5d6dd0e2039ae5e4dbf7a03e001182cfe94"
+        "version": "ec8249490ac6f4ff4aaf042964afc9ce4f3ab725"
     }
 }
