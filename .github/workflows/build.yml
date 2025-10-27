@@ -14,7 +14,7 @@ jobs:
       matrix:
         os: [ self-hosted ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
       - name: Flake check
         run: NIXPKGS_ALLOW_UNFREE=1 nix flake check --impure # we only check on x86_64-linux, the iEDA build is not supported on darwin.
@@ -26,7 +26,7 @@ jobs:
       matrix:
         os: [ self-hosted ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
       - name: Build iEDA
         run: nix build -L '.#iedaUnstable' --accept-flake-config
@@ -53,7 +53,7 @@ jobs:
       matrix:
         os: [ self-hosted ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
       - name: Build iEDA Release Docker
         run: nix build -L '.#releaseDocker' --accept-flake-config
@@ -70,7 +70,7 @@ jobs:
       matrix:
         os: [ self-hosted ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
       - name: Build Magic-VLSI
         run: nix build -L '.#magic-vlsi' --accept-flake-config
@@ -82,7 +82,7 @@ jobs:
       matrix:
         os: [ self-hosted ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
       - name: Build Yosys with Slang
         run: nix build -L '.#yosysWithSlang' --accept-flake-config
@@ -94,7 +94,7 @@ jobs:
       matrix:
         os: [ self-hosted ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
       - name: Build Dreamplace
         run: NIXPKGS_ALLOW_UNFREE=1 nix build -L '.#dreamplace' --accept-flake-config --impure
