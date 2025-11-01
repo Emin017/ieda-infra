@@ -8,16 +8,16 @@
 {
   iEDA = {
     pname = "iEDA";
-    version = "699a03ec6b74f3e0711ad9c247431f7239729f95";
+    version = "86a0006451fff7a9b79da49173fe2b974974af26";
     src = fetchgit {
       url = "https://gitee.com/oscc-project/iEDA.git";
-      rev = "699a03ec6b74f3e0711ad9c247431f7239729f95";
+      rev = "86a0006451fff7a9b79da49173fe2b974974af26";
       fetchSubmodules = true;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-I5NqzqrXMv95cZFLdILMrht7JxbmnE0ZqQ0WFnhSfeU=";
+      sha256 = "sha256-1TLfwiKGGNEjIv57kv15+nrv43hkjeNyMPt94XIM2AE=";
     };
-    date = "2025-10-27";
+    date = "2025-11-01";
   };
 }
