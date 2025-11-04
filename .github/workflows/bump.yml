@@ -136,6 +136,7 @@ jobs:
           # Upload artifacts from downloaded directory
           echo "Uploading iEDA ARX Bundle..."
           if [ -d "./artifacts/ieda-bundle" ]; then
+            shopt -s nullglob
             cd ./artifacts/ieda-bundle
             for file in *; do
               if [ -f "$file" ]; then
@@ -144,10 +145,12 @@ jobs:
               fi
             done
             cd -
+            shopt -u nullglob
           fi
 
           echo "Uploading iEDA RPM Bundle..."
           if [ -d "./artifacts/ieda-rpm-bundle" ]; then
+            shopt -s nullglob
             cd ./artifacts/ieda-rpm-bundle
             for file in *; do
               if [ -f "$file" ]; then
@@ -156,6 +159,7 @@ jobs:
               fi
             done
             cd -
+            shopt -u nullglob
           fi
 
           echo "Release artifacts uploaded successfully!"
