@@ -4,9 +4,11 @@ on:
     types: [closed]
     branches:
       - main
+env:
+  RUN_RELEASE_CONDITION: ${{ github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'iedaUnstable') }}
 jobs:
   release-approval:
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'iedaUnstable')
+    if: ${{ env.RUN_RELEASE_CONDITION == 'true' }}
     runs-on: ubuntu-latest
     environment:
       name: ieda-release
@@ -17,7 +19,7 @@ jobs:
 
   create-release:
     # Only run if PR was merged and title contains "iedaUnstable"
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'iedaUnstable')
+    if: ${{ env.RUN_RELEASE_CONDITION == 'true' }}
     needs: release-approval
     runs-on: self-hosted
     permissions:
