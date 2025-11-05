@@ -81,7 +81,7 @@ jobs:
                 --head "$BRANCH_NAME" \
                 --repo "${{ github.repository }}")
               echo "PR created: $PR_URL"
-              PR_NUMBER=$(echo "$PR_URL" | grep -E -o '[0-9]+$' || true)
+              PR_NUMBER=$(echo "$PR_URL" | sed -n 's#.*/pull/\([0-9]\+\).*#\1#p')
               if [ -z "$PR_NUMBER" ]; then
                 echo "Failed to parse PR number from URL: $PR_URL" >&2
                 exit 1
