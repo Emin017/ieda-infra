@@ -45,42 +45,12 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Build iEDA ARX Bundle
         run: nix bundle -L '.#iedaUnstable'
-      - name: Upload iEDA ARX Offline Bundle
-        uses: actions/upload-artifact@v5.0.0
-        with:
-          name: iEDA-Bundle
-          path: ieda-arx
       - name: Build iEDA RPM Bundle
         run: nix bundle -L --bundler github:NixOS/bundlers#toRPM '.#iedaUnstable'
-      - name: Upload iEDA RPM Offline Bundle
-        uses: actions/upload-artifact@v5.0.0
-        with:
-          name: iEDA-RPM-Bundle
-          path: rpm-single-ieda
       - name: Build iEDA DEB Bundle
         run: nix bundle -L --bundler github:NixOS/bundlers#toDEB '.#iedaUnstable'
-      - name: Upload iEDA DEB Offline Bundle
-        uses: actions/upload-artifact@v5.0.0
-        with:
-          name: iEDA-DEB-Bundle
-          path: deb-single-ieda
       - name: Build iEDA Release Docker
         run: nix build -L '.#releaseDocker'
-      - name: Download iEDA ARX Bundle
-        uses: actions/download-artifact@v5.0.0
-        with:
-          name: iEDA-Bundle
-          path: ./artifacts/ieda-bundle
-      - name: Download iEDA RPM Bundle
-        uses: actions/download-artifact@v5.0.0
-        with:
-          name: iEDA-RPM-Bundle
-          path: ./artifacts/ieda-rpm-bundle
-      - name: Download iEDA DEB Bundle
-        uses: actions/download-artifact@v5.0.0
-        with:
-          name: iEDA-DEB-Bundle
-          path: ./artifacts/ieda-deb-bundle
       - name: Create Release
         run: |
           echo "Creating a new release..."
@@ -111,6 +81,12 @@ jobs:
             echo "\`\`\`bash"
             echo "# Using Nix"
             echo "nix run github:Emin017/ieda-infra#iedaUnstable"
+            echo ""
+            echo "# Using RPM bundle"
+            echo "sudo rpm -i rpm-single-ieda/*.rpm"
+            echo ""
+            echo "# Using DEB bundle"
+            echo "sudo dpkg -i deb-single-ieda/*.deb"
             echo "\`\`\`"
             echo ""
             echo "### Related PR"
@@ -129,11 +105,11 @@ jobs:
 
           echo "Release $RELEASE_TAG created successfully!"
 
-          # Upload artifacts from downloaded directory
+          # Upload artifacts from build output directories
           echo "Uploading iEDA ARX Bundle..."
-          if [ -d "./artifacts/ieda-bundle" ]; then
+          if [ -d "./ieda-arx" ]; then
             shopt -s nullglob
-            cd ./artifacts/ieda-bundle
+            cd ./ieda-arx
             for file in *; do
               if [ -f "$file" ]; then
                 echo "Uploading $file..."
@@ -145,9 +121,9 @@ jobs:
           fi
 
           echo "Uploading iEDA RPM Bundle..."
-          if [ -d "./artifacts/ieda-rpm-bundle" ]; then
+          if [ -d "./rpm-single-ieda" ]; then
             shopt -s nullglob
-            cd ./artifacts/ieda-rpm-bundle
+            cd ./rpm-single-ieda
             for file in *; do
               if [ -f "$file" ]; then
                 echo "Uploading $file..."
@@ -159,9 +135,9 @@ jobs:
           fi
 
           echo "Uploading iEDA DEB Bundle..."
-          if [ -d "./artifacts/ieda-deb-bundle" ]; then
+          if [ -d "./deb-single-ieda" ]; then
             shopt -s nullglob
-            cd ./artifacts/ieda-deb-bundle
+            cd ./deb-single-ieda
             for file in *; do
               if [ -f "$file" ]; then
                 echo "Uploading $file..."
