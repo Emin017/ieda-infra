@@ -52,6 +52,8 @@ jobs:
       - name: Build iEDA Release Docker
         run: nix build -L '.#releaseDocker'
       - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Creating a new release..."
           NEW_VERSION="${{ steps.extract-version.outputs.new_version }}"
@@ -73,9 +75,9 @@ jobs:
             echo "- Updated iEDA source from $OLD_VERSION to $NEW_VERSION"
             echo ""
             echo "### Artifacts"
-            echo "- \`iEDA-Bundle\`: ARX offline bundle"
-            echo "- \`iEDA-RPM-Bundle\`: RPM offline bundle"
-            echo "- \`iEDA-DEB-Bundle\`: DEB offline bundle"
+            echo "- \`ieda-arx/\`: ARX offline bundle directory"
+            echo "- \`rpm-single-ieda/*.rpm\`: RPM bundle files (e.g. ieda-0.1.0_unstable-<rev>.rpm)"
+            echo "- \`deb-single-ieda/*.deb\`: DEB bundle files (e.g. ieda_0.1.0-unstable-<rev>.deb)"
             echo ""
             echo "### Installation"
             echo "\`\`\`bash"
@@ -105,49 +107,28 @@ jobs:
 
           echo "Release $RELEASE_TAG created successfully!"
 
-          # Upload artifacts from build output directories
-          echo "Uploading iEDA ARX Bundle..."
-          if [ -d "./ieda-arx" ]; then
-            shopt -s nullglob
-            cd ./ieda-arx
-            for file in *; do
-              if [ -f "$file" ]; then
-                echo "Uploading $file..."
-                nix run nixpkgs#gh -- release upload "$RELEASE_TAG" "$file" --clobber --repo "${{ github.repository }}"
-              fi
-            done
-            cd -
-            shopt -u nullglob
-          fi
+          upload_artifacts() {
+            local dir="$1"
+            local tag="$2"
+            local repo="$3"
+            local label="$4"
+            echo "Uploading $label..."
+            if [ -d "$dir" ]; then
+              shopt -s nullglob
+              for file in "$dir"/*; do
+                if [ -f "$file" ]; then
+                  echo "Uploading $(basename "$file")..."
+                  nix run nixpkgs#gh -- release upload "$tag" "$file" --clobber --repo "$repo"
+                fi
+              done
+              shopt -u nullglob
+            else
+              echo "Directory $dir not found; skipping."
+            fi
+          }
 
-          echo "Uploading iEDA RPM Bundle..."
-          if [ -d "./rpm-single-ieda" ]; then
-            shopt -s nullglob
-            cd ./rpm-single-ieda
-            for file in *; do
-              if [ -f "$file" ]; then
-                echo "Uploading $file..."
-                nix run nixpkgs#gh -- release upload "$RELEASE_TAG" "$file" --clobber --repo "${{ github.repository }}"
-              fi
-            done
-            cd -
-            shopt -u nullglob
-          fi
-
-          echo "Uploading iEDA DEB Bundle..."
-          if [ -d "./deb-single-ieda" ]; then
-            shopt -s nullglob
-            cd ./deb-single-ieda
-            for file in *; do
-              if [ -f "$file" ]; then
-                echo "Uploading $file..."
-                nix run nixpkgs#gh -- release upload "$RELEASE_TAG" "$file" --clobber --repo "${{ github.repository }}"
-              fi
-            done
-            cd -
-            shopt -u nullglob
-          fi
+          upload_artifacts "./ieda-arx" "$RELEASE_TAG" "${{ github.repository }}" "iEDA ARX Bundle"
+          upload_artifacts "./rpm-single-ieda" "$RELEASE_TAG" "${{ github.repository }}" "iEDA RPM Bundle"
+          upload_artifacts "./deb-single-ieda" "$RELEASE_TAG" "${{ github.repository }}" "iEDA DEB Bundle"
 
           echo "Release artifacts uploaded successfully!"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

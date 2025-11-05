@@ -81,7 +81,11 @@ jobs:
                 --head "$BRANCH_NAME" \
                 --repo "${{ github.repository }}")
               echo "PR created: $PR_URL"
-              PR_NUMBER=$(echo "$PR_URL" | grep -o '[0-9]*$')
+              PR_NUMBER=$(echo "$PR_URL" | grep -E -o '[0-9]+$' || true)
+              if [ -z "$PR_NUMBER" ]; then
+                echo "Failed to parse PR number from URL: $PR_URL" >&2
+                exit 1
+              fi
               echo "PR Number: $PR_NUMBER"
               HAS_CHANGES=true
               echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
