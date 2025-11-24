@@ -23,7 +23,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: main  # Checkout the merged commit on main branch
       - uses: DeterminateSystems/nix-installer-action@main
