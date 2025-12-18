@@ -45,24 +45,6 @@ jobs:
           name: iEDA-Bundle
           path: ieda-arx
 
-  build-docker:
-    name: Build Docker on ${{ matrix.os }}
-    needs: [build-bundle]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: cachix/install-nix-action@v31
-      - name: Build iEDA Release Docker
-        run: nix build -L '.#releaseDocker' --accept-flake-config
-      - name: Upload iEDA Release Docker
-        uses: actions/upload-artifact@v5.0.0
-        with:
-          name: iEDA-Release-Docker
-          path: result
-
   build-magic-vlsi:
     name: Build Magic-VLSI on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
