@@ -5,7 +5,7 @@ on:
   workflow_dispatch: # Allow manual triggering
 jobs:
   update-flake-lock:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write

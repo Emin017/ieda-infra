@@ -19,7 +19,7 @@ jobs:
     # Only run if PR was merged and title contains "iedaUnstable"
     if: ${{ github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'iedaUnstable') }}
     needs: release-approval
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
