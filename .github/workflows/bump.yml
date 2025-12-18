@@ -26,21 +26,21 @@ jobs:
       - name: Build iEDA
         run: nix bundle -L '.#iedaUnstable'
       - name: Upload iEDA ARX Offline Bundle
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: iEDA-Bundle
           path: ieda-arx
       - name: Build iEDA RPM Bundle
         run: nix bundle -L --bundler github:NixOS/bundlers#toRPM '.#iedaUnstable'
       - name: Upload iEDA RPM Offline Bundle
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: iEDA-RPM-Bundle
           path: rpm-single-ieda
       - name: Build iEDA DEB Bundle
         run: nix bundle -L --bundler github:NixOS/bundlers#toDEB '.#iedaUnstable'
       - name: Upload iEDA DEB Offline Bundle
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: iEDA-DEB-Bundle
           path: deb-single-ieda
