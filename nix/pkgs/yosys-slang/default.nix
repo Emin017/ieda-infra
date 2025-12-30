@@ -7,25 +7,18 @@
 }:
 stdenv.mkDerivation rec {
   pname = "yosys-slang";
-  version = "0-unstable-2025-06-21";
+  version = "0-unstable-2025-12-16";
   plugin = "slang";
 
   src = fetchgit {
     url = "https://github.com/povik/yosys-slang.git";
-    rev = "76b83eb5b73ba871797e6db7bc5fed10af380be4";
-    sha256 = "sha256-xXL2Kpv95ot++kBWta0XF8HzboW0MmPOxT5sxmyKYgA=";
+    rev = "23e0653c85f6ed4127e665a2529b069ce550e967";
+    sha256 = "sha256-7axr4JyxTtnCbI6l23A9LoBco3b3bqEMKoTEc1KNOQI=";
     fetchSubmodules = true;
   };
 
   cmakeFlags = [
-    "-DBUILD_AS_PLUGIN=ON"
-    "-DYOSYS_PLUGIN_DIR=${placeholder "out"}/share/yosys/plugins"
-    "-DYOSYS_SLANG_REVISION=${src.rev or "unknown"}"
-    "-DSLANG_REVISION=unknown"
-  ];
-
-  patches = [
-    ./fix-install-path-and-revision.patch
+    "-DYOSYS_CONFIG=${yosys}/bin/yosys-config"
   ];
 
   buildInputs = [
@@ -35,6 +28,15 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
   ];
+
+  installPhase = ''
+    runHook preBuild
+
+    mkdir -p $out/share/yosys/plugins
+    install -m755 slang.so $out/share/yosys/plugins/
+
+    runHook postBuild
+  '';
 
   meta = {
     description = "SystemVerilog frontend for Yosys ";
