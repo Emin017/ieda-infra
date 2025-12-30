@@ -18,9 +18,15 @@ in
   dreamplace = final.callPackage ./pkgs/dreamplace { };
 
   yosys-slang = prev.callPackage ./pkgs/yosys-slang { };
-  yosysWithSlang = final.yosys.withPlugins [
-    final.yosys-slang
-  ];
+  yosysWithSlang =
+    (final.yosys.withPlugins [
+      final.yosys-slang
+    ]).overrideAttrs
+      (old: {
+        meta = (old.meta or { }) // {
+          mainProgram = "yosys";
+        };
+      });
 
   rustpkgs-all = final.symlinkJoin {
     name = "rustpkgs-all";
