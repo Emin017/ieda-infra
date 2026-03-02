@@ -56,6 +56,8 @@ jobs:
       - uses: cachix/install-nix-action@v31
       - name: Build Yosys with Slang
         run: nix build -L '.#yosysWithSlang' --accept-flake-config
+      - name: Test Yosys with Slang
+        run: ./result/bin/yosys -p "plugin -i slang"
 
   build-dreamplace:
     name: Build Dreamplace on ${{ matrix.os }}
