@@ -33,14 +33,14 @@ jobs:
       - name: Build iEDA RPM Bundle
         run: nix bundle -L --bundler github:NixOS/bundlers#toRPM '.#iedaUnstable' --accept-flake-config
       - name: Upload iEDA RPM Offline Bundle
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: iEDA-RPM-Bundle
           path: rpm-single-ieda
       - name: Build iEDA ARX Bundle
         run: nix bundle -L '.#iedaUnstable' --accept-flake-config
       - name: Upload iEDA ARX Offline Bundle
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: iEDA-Bundle
           path: ieda-arx
