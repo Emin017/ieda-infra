@@ -55,6 +55,7 @@ stdenv.mkDerivation {
 
   postPatch = ''
     sed -i 's/^[[:space:]]*CMAKE_POLICY(SET CMP0048 OLD)/CMAKE_POLICY(SET CMP0048 NEW)/' thirdparty/Limbo/limbo/thirdparty/lemon/CMakeLists.txt
+    sed -i 's/static void  thread_hold();/static void thread_hold(int sig);/; s/static void thread_hold ()/static void thread_hold(int sig)/' thirdparty/Limbo/limbo/thirdparty/CThreadPool/thpool.c
   '';
 
   buildInputs = [

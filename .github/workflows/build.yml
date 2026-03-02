@@ -6,6 +6,10 @@ on:
   pull_request:
     branches:
       - main
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
     name: Check on ${{ matrix.os }}
@@ -45,18 +49,6 @@ jobs:
           name: iEDA-Bundle
           path: ieda-arx
 
-  build-magic-vlsi:
-    name: Build Magic-VLSI on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: cachix/install-nix-action@v31
-      - name: Build Magic-VLSI
-        run: nix build -L '.#magic-vlsi' --accept-flake-config
-
   build-yosys-with-slang:
     name: Build Yosys with Slang on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -68,6 +60,8 @@ jobs:
       - uses: cachix/install-nix-action@v31
       - name: Build Yosys with Slang
         run: nix build -L '.#yosysWithSlang' --accept-flake-config
+      - name: Test Yosys with Slang
+        run: ./result/bin/yosys -p "plugin -i slang"
 
   build-dreamplace:
     name: Build Dreamplace on ${{ matrix.os }}

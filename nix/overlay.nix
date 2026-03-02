@@ -14,7 +14,6 @@ in
     ;
 
   iedaScope = final.callPackage ./pkgs/ieda { };
-  magic-vlsi = final.callPackage ./pkgs/magic-vlsi { };
   dreamplace = final.callPackage ./pkgs/dreamplace { };
 
   yosys-slang = prev.callPackage ./pkgs/yosys-slang { };
@@ -23,6 +22,10 @@ in
       final.yosys-slang
     ]).overrideAttrs
       (old: {
+        buildCommand = old.buildCommand + ''
+          wrapProgram $out/bin/yosys \
+            --set YOSYS_PLUGIN_PATH $out/share/yosys/plugins
+        '';
         meta = (old.meta or { }) // {
           mainProgram = "yosys";
         };
