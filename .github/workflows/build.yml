@@ -45,18 +45,6 @@ jobs:
           name: iEDA-Bundle
           path: ieda-arx
 
-  build-magic-vlsi:
-    name: Build Magic-VLSI on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: cachix/install-nix-action@v31
-      - name: Build Magic-VLSI
-        run: nix build -L '.#magic-vlsi' --accept-flake-config
-
   build-yosys-with-slang:
     name: Build Yosys with Slang on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}

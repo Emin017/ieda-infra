@@ -14,7 +14,6 @@ in
     ;
 
   iedaScope = final.callPackage ./pkgs/ieda { };
-  magic-vlsi = final.callPackage ./pkgs/magic-vlsi { };
   dreamplace = final.callPackage ./pkgs/dreamplace { };
 
   yosys-slang = prev.callPackage ./pkgs/yosys-slang { };
